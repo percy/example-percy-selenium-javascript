@@ -1,6 +1,6 @@
 const { Builder, By, Key, until } = require('selenium-webdriver');
 const firefox = require('selenium-webdriver/firefox');
-const percySnapshot = require('@percy/seleniumjs');
+const percySnapshot = require('@percy/selenium-webdriver');
 const httpServer = require('http-server');
 const spawn = require('child_process').spawn;
 const server = httpServer.createServer();
