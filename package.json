@@ -12,9 +12,8 @@
   "author": "Perceptual Inc.",
   "license": "MIT",
   "scripts": {
-    "test": "percy exec -- node test.js"
+    "test": "percy exec -- node tests/test.js"
   },
-  "dependencies": {},
   "devDependencies": {
     "@percy/seleniumjs": "^0.1.2",
     "chromedriver": "^80.0.0",
