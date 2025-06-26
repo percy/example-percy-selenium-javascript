@@ -1,0 +1,38 @@
+# .github/workflows/percy.yml
+name: Percy Visual Tests
+
+on:
+  push:
+    branches:
+      - main # Run on pushes to the main branch
+  pull_request:
+    branches:
+      - main # Run on pull requests targeting the main branch
+
+jobs:
+  visual-tests:
+    runs-on: ubuntu-latest # Use a standard Ubuntu runner
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4 # Action to checkout your repository code
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20' # Use a recent LTS Node.js version
+
+    - name: Install dependencies
+      run: npm install # Install project dependencies
+
+    - name: Install latest Chromedriver (GeckoDriver for Firefox)
+      run: |
+        npm install chromedriver@latest # Ensure latest chromedriver for Chrome
+        npm install geckodriver@latest # Ensure latest geckodriver for Firefox
+
+    - name: Run Percy Visual Tests
+      env:
+        PERCY_TOKEN: ${{ secrets.PERCY_TOKEN }} # Use GitHub Secret for Percy Token
+        # PERCY_BRANCH: ${{ github.head_ref || github.ref_name }} # Auto-detect branch for Percy
+        # PERCY_TARGET_BRANCH: main # Optional: Always compare PRs to main, if needed
+      run: percy exec -- npm run test # Execute your test script via Percy CLI
