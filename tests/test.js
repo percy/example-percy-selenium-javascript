@@ -1,5 +1,8 @@
 const { Builder, By, Key, until } = require('selenium-webdriver');
 const firefox = require('selenium-webdriver/firefox');
+const chrome = require('selenium-webdriver/chrome');
+// chromedriver package makes sure a chromedriver binary is available in PATH
+try { require('chromedriver'); } catch (e) { /* chromedriver may not be installed */ }
 const percySnapshot = require('@percy/selenium-webdriver');
 const httpServer = require('http-server');
 const spawn = require('child_process').spawn;
@@ -22,16 +25,38 @@ async function cleanup({ driver, server, isError = 0 }) {
   let driver;
 
   try {
-    const options = new firefox.Options().headless();
+    // Try Firefox first (as original). If it fails (no binary in environment),
+    // fall back to Chrome headless using chromedriver.
+    try {
+  const options = new firefox.Options();
+  // Use headless flag compatible with newer selenium versions
+  options.addArguments('-headless');
 
-    if (process.env.FIREFOX_BINARY) {
-      options.setBinary(process.env.FIREFOX_BINARY);
+      if (process.env.FIREFOX_BINARY) {
+        options.setBinary(process.env.FIREFOX_BINARY);
+      }
+
+      driver = await new Builder()
+        .forBrowser('firefox')
+        .setFirefoxOptions(options)
+        .build();
+    } catch (err) {
+      console.log('Firefox launch failed, falling back to Chrome:', err.message);
+      // Fallback to Chrome headless
+      const chromeOptions = new chrome.Options();
+      // Use new headless mode for recent Chrome versions
+      chromeOptions.addArguments('--headless=new', '--no-sandbox', '--disable-gpu', '--disable-dev-shm-usage');
+
+      // If an explicit CHROME_BINARY is provided, use it (useful for CI)
+      if (process.env.CHROME_BINARY) {
+        chromeOptions.setChromeBinaryPath(process.env.CHROME_BINARY);
+      }
+
+      driver = await new Builder()
+        .forBrowser('chrome')
+        .setChromeOptions(chromeOptions)
+        .build();
     }
-    
-    driver = await new Builder()
-      .forBrowser('firefox')
-      .setFirefoxOptions(options)
-      .build();
 
     async function emptyTodos() {
       await driver.get(TEST_URL);
