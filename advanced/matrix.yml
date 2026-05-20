@@ -1,0 +1,83 @@
+# PER-8195 Phase 1 — Selenium-JS matrix-row mapping (STUB).
+# Test code in tests/advanced.test.js — TO BE WRITTEN.
+
+sdk: selenium-javascript
+package: '@percy/selenium-webdriver'
+language: javascript
+sdk_min_version: '2.2.6'
+cli_min_version: '1.31.10'
+
+rows:
+  - id: widths
+    state: planned
+    test: 'TodoMVC Advanced > exercises widths'
+  - id: min_height
+    state: planned
+    test: 'TodoMVC Advanced > exercises minHeight'
+  - id: percy_css
+    state: planned
+    test: 'TodoMVC Advanced > exercises percyCSS'
+  - id: enable_javascript
+    state: planned
+    test: 'TodoMVC Advanced > exercises enableJavaScript'
+  - id: responsive_snapshot_capture
+    state: planned
+    test: 'TodoMVC Advanced > exercises responsiveSnapshotCapture'
+  - id: readiness_preset
+    state: planned
+    test: 'TodoMVC Advanced > exercises readiness preset'
+  - id: ignore_canvas_serialization_errors
+    state: planned
+    test: 'TodoMVC Advanced > exercises ignoreCanvasSerializationErrors'
+  - id: ignore_stylesheet_serialization_errors
+    state: planned
+    test: 'TodoMVC Advanced > exercises ignoreStyleSheetSerializationErrors'
+
+  # Selenium-JS-specific.
+  - id: chrome_cdp_resize
+    state: covered
+    test: 'automatic via @percy/selenium-webdriver >= 2.2.6 when responsive_snapshot_capture is enabled'
+  - id: cookie_capture_via_getcookies
+    state: covered
+    test: 'automatic via @percy/selenium-webdriver'
+  - id: create_region_helper
+    state: planned
+    test: 'TodoMVC Advanced > exercises regions (via createRegion helper)'
+  - id: slow_scroll_to_bottom_lazy_loading
+    state: planned
+    test: 'TodoMVC Advanced > exercises slowScrollToBottom helper (PERCY_ENABLE_LAZY_LOADING_SCROLL=true)'
+
+  # Options not in the public Selenium-JS surface (per SDK index.d.ts).
+  - id: scope
+    state: n_a
+    reason: 'Not exposed in @percy/selenium-webdriver SnapshotOptions surface as of 2.2.6.'
+  - id: dom_transformation
+    state: n_a
+    reason: 'Not exposed in @percy/selenium-webdriver SnapshotOptions surface as of 2.2.6.'
+  - id: discovery
+    state: n_a
+    reason: 'discovery is per-build, not per-snapshot in this SDK.'
+  - id: labels
+    state: planned
+  - id: test_case
+    state: planned
+  - id: device_pixel_ratio
+    state: planned
+  - id: browsers
+    state: planned
+  - id: regions
+    state: planned
+  - id: sync
+    state: planned
+
+  - id: env_percy_server_address
+    state: planned
+    test: 'CI: advanced job sets PERCY_SERVER_ADDRESS via env'
+  - id: percy_yml_global_config
+    state: planned
+    test: 'global config consumed via .percy.yml'
+  - id: environment_info_reporting
+    state: covered
+    test: 'automatic via @percy/selenium-webdriver client info'
+
+# Pre-existing basic-example coverage (tests/test.js): three bare percySnapshot calls, no options.
