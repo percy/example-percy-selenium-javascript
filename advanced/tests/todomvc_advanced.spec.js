@@ -19,7 +19,7 @@ describe('TodoMVC Advanced', function () {
     server = httpServer.createServer({ root: `${__dirname}/../..` });
     server.listen(PORT);
 
-    const options = new firefox.Options().headless();
+    const options = new firefox.Options().addArguments('-headless');
     if (process.env.FIREFOX_BINARY) options.setBinary(process.env.FIREFOX_BINARY);
 
     driver = await new Builder()
