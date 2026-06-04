@@ -1,0 +1,39 @@
+# .github/workflows/percy.yml
+name: Percy Visual Tests
+
+on:
+  push:
+    branches:
+      - master # Your remote default branch is 'master'
+
+  pull_request:
+    branches:
+      - master # PRs targeting your 'master' branch
+
+jobs:
+  visual-tests:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20'
+
+    - name: Install dependencies
+      run: npm install
+
+    # Add this new step to install Percy CLI globally
+    - name: Install Percy CLI
+      run: npm install -g @percy/cli
+
+    - name: Install latest Chromedriver (for Chrome)
+      run: npm install chromedriver@latest
+
+    - name: Run Percy Visual Tests
+      env:
+        PERCY_TOKEN: ${{ secrets.PERCY_TOKEN }}
+      run: percy exec -- npm run test
