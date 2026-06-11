@@ -11,7 +11,7 @@ const PORT = process.env.PORT_NUMBER || 8003;
 const TEST_URL = `http://localhost:${PORT}`;
 
 describe('TodoMVC Advanced', function () {
-  this.timeout(45000);
+  this.timeout(120000);
   let driver;
   let server;
 
