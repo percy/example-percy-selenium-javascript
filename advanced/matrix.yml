@@ -1,0 +1,92 @@
+# PER-8195 Phase 1 — Selenium-JS matrix-row mapping.
+# Test code: tests/todomvc_advanced.spec.js.
+
+sdk: selenium-javascript
+package: '@percy/selenium-webdriver'
+language: javascript
+sdk_min_version: '2.2.6'
+cli_min_version: '1.31.10'
+
+rows:
+  - id: widths
+    state: covered
+    test: 'TodoMVC Advanced > exercises widths'
+  - id: min_height
+    state: covered
+    test: 'TodoMVC Advanced > exercises minHeight'
+  - id: percy_css
+    state: covered
+    test: 'TodoMVC Advanced > exercises percyCSS'
+  - id: enable_javascript
+    state: covered
+    test: 'TodoMVC Advanced > exercises enableJavaScript'
+  - id: responsive_snapshot_capture
+    state: covered
+    test: 'TodoMVC Advanced > exercises responsiveSnapshotCapture'
+  - id: readiness_preset
+    state: covered
+    test: 'TodoMVC Advanced > exercises readiness preset'
+  - id: labels
+    state: covered
+    test: 'TodoMVC Advanced > exercises labels'
+  - id: test_case
+    state: covered
+    test: 'TodoMVC Advanced > exercises testCase'
+  - id: device_pixel_ratio
+    state: covered
+    test: 'TodoMVC Advanced > exercises devicePixelRatio'
+  - id: regions
+    state: covered
+    test: 'TodoMVC Advanced > exercises regions'
+  - id: browsers
+    state: covered
+    test: 'TodoMVC Advanced > exercises browsers override'
+  - id: sync
+    state: covered
+    test: 'TodoMVC Advanced > exercises sync mode'
+  - id: ignore_canvas_serialization_errors
+    state: covered
+    test: 'TodoMVC Advanced > exercises ignoreCanvasSerializationErrors'
+    notes: 'No assert-script predicate yet; reported as skip until extended.'
+  - id: ignore_stylesheet_serialization_errors
+    state: covered
+    test: 'TodoMVC Advanced > exercises ignoreStyleSheetSerializationErrors'
+    notes: 'No assert-script predicate yet; reported as skip until extended.'
+
+  # Selenium-JS-specific helpers — exposed by SDK but not yet exercised in this
+  # phase.
+  - id: create_region_helper
+    state: planned
+    test: 'TodoMVC Advanced > exercises regions (via createRegion helper)'
+  - id: slow_scroll_to_bottom_lazy_loading
+    state: planned
+    test: 'TodoMVC Advanced > exercises slowScrollToBottom helper (PERCY_ENABLE_LAZY_LOADING_SCROLL=true)'
+
+  # Automatic SDK behaviors.
+  - id: chrome_cdp_resize
+    state: covered
+    test: 'automatic via @percy/selenium-webdriver >= 2.2.6 when responsive_snapshot_capture is enabled'
+  - id: cookie_capture_via_getcookies
+    state: covered
+    test: 'automatic via @percy/selenium-webdriver'
+
+  # Options not in the public Selenium-JS surface (per SDK index.d.ts).
+  - id: scope
+    state: n_a
+    reason: 'Not exposed in @percy/selenium-webdriver SnapshotOptions surface as of 2.2.6.'
+  - id: dom_transformation
+    state: n_a
+    reason: 'Not exposed in @percy/selenium-webdriver SnapshotOptions surface as of 2.2.6.'
+  - id: discovery
+    state: n_a
+    reason: 'discovery is per-build, not per-snapshot in this SDK.'
+
+  - id: env_percy_server_address
+    state: covered
+    test: 'CI: advanced job sets PERCY_SERVER_ADDRESS via env'
+  - id: percy_yml_global_config
+    state: covered
+    test: 'global config consumed via .percy.yml'
+  - id: environment_info_reporting
+    state: covered
+    test: 'automatic via @percy/selenium-webdriver client info'
