@@ -22,7 +22,7 @@ async function cleanup({ driver, server, isError = 0 }) {
   let driver;
 
   try {
-    const options = new firefox.Options().headless();
+    const options = new firefox.Options().addArguments('-headless');
 
     if (process.env.FIREFOX_BINARY) {
       options.setBinary(process.env.FIREFOX_BINARY);

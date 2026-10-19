@@ -20,7 +20,7 @@ The tutorial assumes you're already familiar with JavaScript and
 [Selenium JavaScript](https://www.selenium.dev/selenium/docs/api/javascript/index.html) and focuses on using it with Percy. You'll still
 be able to follow along if you're not familiar with Selenium JavaScript, but we won't spend time introducing Selenium JavaScript concepts.
 
-The tutorial also assumes you have [Node 12+ with npm](https://nodejs.org/en/download/) and
+The tutorial also assumes you have [Node 22+ with npm](https://nodejs.org/en/download/) and
 [git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git) installed.
 
 ### Step 1
