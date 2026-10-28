@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Shadow DOM demo</title>
+  <style>
+    body { font-family: sans-serif; margin: 24px; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; }
+  </style>
+</head>
+<body>
+  <h1>Shadow DOM demo</h1>
+  <div class="grid">
+    <shadow-card mode="open" label="Open shadow root"></shadow-card>
+    <shadow-card mode="closed" label="Closed shadow root"></shadow-card>
+    <late-shadow-card label="Late-attached closed shadow root"></late-shadow-card>
+  </div>
+
+  <script>
+    function fill(root, label, color) {
+      root.innerHTML = `
+        <style>
+          .card { border: 2px solid ${color}; border-radius: 8px; padding: 16px; }
+          .card strong { color: ${color}; }
+        </style>
+        <div class="card"><strong>${label}</strong><p>Rendered inside the shadow root.</p></div>`;
+    }
+
+    customElements.define('shadow-card', class extends HTMLElement {
+      constructor() {
+        super();
+        const mode = this.getAttribute('mode');
+        fill(this.attachShadow({ mode }), this.getAttribute('label'), mode === 'closed' ? '#c62828' : '#2e7d32');
+      }
+    });
+
+    // Attaches its closed root after load, the way lazily hydrated widgets do,
+    // so the test has to wait for it before snapshotting.
+    customElements.define('late-shadow-card', class extends HTMLElement {
+      connectedCallback() {
+        setTimeout(() => {
+          fill(this.attachShadow({ mode: 'closed' }), this.getAttribute('label'), '#1565c0');
+          document.documentElement.dataset.lateShadowAttached = 'true';
+        }, 500);
+      }
+    });
+  </script>
+</body>
+</html>
