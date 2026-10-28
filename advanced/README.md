@@ -53,3 +53,14 @@ States: `Covered` / `N/A — <reason>` / `Planned` / `Deprecated`. Source of tru
 | `scope` | N/A | Not exposed in SDK 2.2.6 |
 | `domTransformation` | N/A | Not exposed in SDK 2.2.6 |
 | `discovery` per-snapshot | N/A | discovery is per-build only |
+
+## Firefox with `webSocketUrl: true`
+
+`tests/firefox_bidi.spec.js` starts Firefox with the WebDriver BiDi capability:
+
+```js
+const options = new firefox.Options().addArguments('-headless');
+options.set('webSocketUrl', true);
+```
+
+With a BiDi session, `@percy/selenium-webdriver` can set the exact viewport for each width in a responsive capture (a Firefox window on macOS can't be narrower than 500px, so without BiDi a 375px capture renders at 500px) and can read closed shadow roots (see `pages/shadow-dom.html`). SDK versions without BiDi support ignore the capability and snapshot as before.
